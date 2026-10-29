@@ -1,7 +1,6 @@
 services:
   db:
-    container_name: db
-    image: postgres:latest
+    image: postgres:17-alpine
     ports:
       - "5432:5432"
     environment:
@@ -9,23 +8,26 @@ services:
       POSTGRES_DB: driveon
       POSTGRES_USER: driveon
     volumes:
-      - postgresql_data:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
     healthcheck:
-      test: pg_isready -U myuser -d db_prod
+      test: ["CMD-SHELL", "pg_isready -U driveon -d driveon"]
       interval: 5s
+      timeout: 3s
       retries: 10
 
   php:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.dev
+    working_dir: /var/www/html
     depends_on:
       db:
         condition: service_healthy
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - ./backend:/var/www/html
+    command: php artisan serve --host=0.0.0.0 --port=8000
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/up"]
       interval: 5s
