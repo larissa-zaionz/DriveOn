@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Branc extends Model
+class Brand extends Model
 {
-    //
+    protected $fillable = [
+        'name'
+    ];
 }
