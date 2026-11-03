@@ -4,10 +4,8 @@ services:
     image: postgres:latest
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: rootpassword
-      POSTGRES_DB: driveon
-      POSTGRES_USER: driveon
+    env_file: 
+      - ./backend/.env
     volumes:
       - postgresql_data:/var/lib/postgresql
     healthcheck:
@@ -28,7 +26,7 @@ services:
       - ./backend:/app
       - /app/vendor
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/up"]
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/up"]
       interval: 5s
       timeout: 3s
       retries: 20
