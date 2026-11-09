@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             'name'     => 'Administrador DriveOn',
             'email'    => 'admin@driveon.com',
             'password' => Hash::make('password123'),
-            'is_admin'     => 'true',
+            'role'     => 'admin',
         ]);
 
         // 2. Cliente 1

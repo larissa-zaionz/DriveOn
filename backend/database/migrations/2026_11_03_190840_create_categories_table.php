@@ -18,6 +18,7 @@ return new class extends Migration
                   ->constrained('categories')
                   ->nullOnDelete();
             $table->string('name', 80);
+            $table->string('slug', 100)->unique();
             $table->timestamps();
         });
     }
